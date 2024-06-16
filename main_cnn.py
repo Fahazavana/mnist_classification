@@ -6,7 +6,7 @@ from torchvision.transforms import Compose, ToTensor, Normalize
 from torchvision.datasets import MNIST
 from torch.utils.data import DataLoader
 from train_models import train_cnn
-from models import ClassifierCNN2
+from models import ClassifierCNN
 from torch.utils.tensorboard import SummaryWriter
 
 device = 'mps' if torch.backends.mps.is_available() else 'cpu'
@@ -23,12 +23,12 @@ mnist_test = MNIST(root='../ccn_gan_torch/test', train=False,
 train = DataLoader(mnist_train, batch_size=BATCH_SIZE, shuffle=True)
 test = DataLoader(mnist_test, batch_size=BATCH_SIZE, shuffle=True)
 
-model = ClassifierCNN2(10).to(device)
+model = ClassifierCNN(10).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=LR)
 criterion = nn.CrossEntropyLoss()
 history = {'loss': [], 'd_loss': []}
 
-writer = SummaryWriter(f"runs/CNN_NO_MLP")
+writer = SummaryWriter(f"runs/CNN")
 
 train_cnn(model, criterion, optimizer, 10, train, device, writer, test)
 

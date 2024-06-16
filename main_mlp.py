@@ -9,7 +9,7 @@ from train_models import train_mlp
 from models import ClassifierMLP
 from torch.utils.tensorboard import SummaryWriter
 
-device = 'mps' if torch.backends.mps.is_available() else 'cuda'
+device = 'mps' if torch.backends.mps.is_available() else 'cpu'
 BATCH_SIZE = 256
 LATENT_DIM = 100
 N_EPOCHS = 1

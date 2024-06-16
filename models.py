@@ -20,6 +20,29 @@ class ClassifierCNN(nn.Module):
     def __init__(self, num_cls):
         super(ClassifierCNN, self).__init__()
         self.num_cls = num_cls
+        self.features = nn.Sequential(
+            nn.Conv2d(1, 16, kernel_size=3, stride=2, padding=5, bias=False), # 16x16
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.Conv2d(16, 32, kernel_size=4, stride=2, padding=1, bias=False), # 8x8
+            nn.BatchNorm2d(32),
+            nn.ReLU())
+        self.dense=nn.Sequential(
+            nn.Linear(32*9*9, 128),
+            nn.ReLU(),
+            nn.Linear(128, self.num_cls)
+            )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = x.view(-1, 32*9*9)
+        return self.dense(x)
+        
+################################################################################    
+class ClassifierCNN2(nn.Module):
+    def __init__(self, num_cls):
+        super(ClassifierCNN2, self).__init__()
+        self.num_cls = num_cls
         self.classify = nn.Sequential(
             nn.Conv2d(1, 16, kernel_size=3, stride=2, padding=5, bias=False), # 16x16
             nn.BatchNorm2d(16),
